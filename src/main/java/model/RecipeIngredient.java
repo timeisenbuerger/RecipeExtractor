@@ -1,13 +1,15 @@
-public class Ingredient
+package model;
+
+public class RecipeIngredient
 {
    private String amount;
    private String name;
 
-   public Ingredient()
+   public RecipeIngredient()
    {
    }
 
-   public Ingredient(String amount, String name)
+   public RecipeIngredient(String amount, String name)
    {
       this.amount = amount;
       this.name = name;
