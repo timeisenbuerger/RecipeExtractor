@@ -32,54 +32,6 @@ public class ChefkochExtractor
       this.recipeHtmlPage = Jsoup.connect(recipeUrl).get();
    }
 
-   //public static String retrieveReceiptContent(String url) throws IOException
-   //{
-   //   Document html = Jsoup
-   //         .connect(url).get();
-   //
-   //   String portions = html.body().getElementsByAttributeValue("aria-label", "Anzahl der Portionen").get(0).attr("value");
-   //
-   //   Element ingredientsTable = html.body().getElementsByClass("ingredients table-header").get(0);
-   //   List<String> ingredientStrings = extractIngredients(new ArrayList<>(), ingredientsTable);
-   //
-   //   List<RecipeIngredient> ingredients = new ArrayList<>();
-   //   for( int i = 0; i < ingredientStrings.size(); i += 2 )
-   //   {
-   //      ingredients.add(new RecipeIngredient(ingredientStrings.get(i), ingredientStrings.get(i + 1)));
-   //   }
-   //
-   //   List<String> tags = extractTags(html);
-   //
-   //   String preparation = extractInstruction(html);
-   //
-   //   String content = "";
-   //   content = content + "<h2>Portionen: </h2>" + portions + "\n";
-   //   content = content + "<h2>Zutaten</h2>\n";
-   //   for( RecipeIngredient ingredient : ingredients )
-   //   {
-   //      content = content + ingredient.getAmount() + "   " + ingredient.getName() + "<br>";
-   //   }
-   //
-   //   content = content + "<h2>Zubereitung</h2>\n";
-   //
-   //   for( int i = 0; i < tags.size(); i++ )
-   //   {
-   //      String tag = tags.get(i);
-   //      if( i < tags.size() - 1 )
-   //      {
-   //         content = content + tag;
-   //      }
-   //      else
-   //      {
-   //         content = content + tag + "<br><br>";
-   //      }
-   //   }
-   //
-   //   content = content + preparation;
-   //
-   //   return content;
-   //}
-
    public String getTitle()
    {
       if( title == null )
@@ -135,7 +87,7 @@ public class ChefkochExtractor
       return recipeIngredients;
    }
 
-   private void changeRecipe(String recipeUrl) throws IOException
+   public void changeRecipe(String recipeUrl) throws IOException
    {
       this.recipeUrl = recipeUrl;
       this.recipeHtmlPage = Jsoup.connect(recipeUrl).get();
