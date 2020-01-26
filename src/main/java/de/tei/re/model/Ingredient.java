@@ -1,4 +1,4 @@
-package model;
+package de.tei.re.model;
 
 public class Ingredient
 {

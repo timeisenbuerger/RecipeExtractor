@@ -1,10 +1,10 @@
-package logic;
+package de.tei.re.logic;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.RecipeIngredient;
+import de.tei.re.model.RecipeIngredient;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

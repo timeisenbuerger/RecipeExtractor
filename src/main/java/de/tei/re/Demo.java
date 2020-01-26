@@ -1,10 +1,12 @@
+package de.tei.re;
+
 import java.io.IOException;
 import java.util.List;
 
-import logic.ChefkochExtractor;
-import model.RecipeIngredient;
+import de.tei.re.logic.ChefkochExtractor;
+import de.tei.re.model.RecipeIngredient;
 
-public class Main
+public class Demo
 {
    public static void main(String[] args) throws IOException
    {

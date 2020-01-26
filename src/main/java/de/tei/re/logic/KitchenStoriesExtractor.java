@@ -1,4 +1,4 @@
-package logic;
+package de.tei.re.logic;
 
 import java.io.IOException;
 
