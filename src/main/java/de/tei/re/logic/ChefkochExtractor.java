@@ -189,14 +189,21 @@ public class ChefkochExtractor
                   }
                   else if( element.parent().className().equals("td-right") )
                   {
-                     IngredientTableItem item = ingredients.get(ingredients.size() - 1);
-                     if( item.getRight() != null )
+                     if( ingredients.isEmpty() )
                      {
                         ingredients.add(new IngredientTableItem("", element.text()));
                      }
                      else
                      {
-                        item.setRight(element.text());
+                        IngredientTableItem item = ingredients.get(ingredients.size() - 1);
+                        if( item.getRight() != null )
+                        {
+                           ingredients.add(new IngredientTableItem("", element.text()));
+                        }
+                        else
+                        {
+                           item.setRight(element.text());
+                        }
                      }
                   }
                }

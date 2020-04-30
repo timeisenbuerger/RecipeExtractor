@@ -11,7 +11,7 @@ public class Demo
    public static void main(String[] args) throws IOException
    {
       ChefkochExtractor chefkochExtractor = new ChefkochExtractor(
-            "https://www.chefkoch.de/rezepte/2507481393507298/Gnocchi-Pfanne.html");
+            "https://www.google.com/amp/s/www.chefkoch.de/amp/rezepte/745721177147257/Lasagne.html");
       String title = chefkochExtractor.getTitle();
       String portions = chefkochExtractor.getPortions();
       List<String> tags = chefkochExtractor.getTags();
