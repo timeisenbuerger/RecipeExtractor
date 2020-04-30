@@ -3,15 +3,17 @@ package de.tei.re.model;
 public class RecipeIngredient
 {
    private String amount;
+   private String unit;
    private String name;
 
    public RecipeIngredient()
    {
    }
 
-   public RecipeIngredient(String amount, String name)
+   public RecipeIngredient(String amount, String unit, String name)
    {
       this.amount = amount;
+      this.unit = unit;
       this.name = name;
    }
 
@@ -23,6 +25,16 @@ public class RecipeIngredient
    public void setAmount(String amount)
    {
       this.amount = amount;
+   }
+
+   public String getUnit()
+   {
+      return unit;
+   }
+
+   public void setUnit(String unit)
+   {
+      this.unit = unit;
    }
 
    public String getName()
@@ -38,7 +50,6 @@ public class RecipeIngredient
    @Override
    public String toString()
    {
-      return "Menge: '" + amount + '\'' +
-             "Name: '" + name;
+      return amount + " " + unit + " " + name;
    }
 }

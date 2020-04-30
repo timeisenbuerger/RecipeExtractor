@@ -2,6 +2,7 @@ package de.tei.re.logic;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import de.tei.re.model.RecipeIngredient;
@@ -15,6 +16,7 @@ public class ChefkochExtractor
 {
    private String recipeUrl;
    private Document recipeHtmlPage;
+   private Element body;
 
    private String title;
    private String portions;
@@ -30,6 +32,7 @@ public class ChefkochExtractor
    {
       this.recipeUrl = recipeUrl;
       this.recipeHtmlPage = Jsoup.connect(recipeUrl).get();
+      this.body = recipeHtmlPage.body();
    }
 
    public String getTitle()
@@ -91,6 +94,7 @@ public class ChefkochExtractor
    {
       this.recipeUrl = recipeUrl;
       this.recipeHtmlPage = Jsoup.connect(recipeUrl).get();
+      this.body = recipeHtmlPage.body();
 
       title = null;
       portions = null;
@@ -106,13 +110,13 @@ public class ChefkochExtractor
 
    private String extractPortions()
    {
-      return recipeHtmlPage.body().getElementsByAttributeValue("aria-label", "Anzahl der Portionen").get(0).attr("value");
+      return body.getElementsByAttributeValue("aria-label", "Anzahl der Portionen").get(0).attr("value");
    }
 
    private List<String> extractTags()
    {
       List<String> tags = new ArrayList<>();
-      Element tagElements = recipeHtmlPage.body().getElementsByClass("ds-recipe-meta rds-recipe-meta").get(0);
+      Element tagElements = body.getElementsByClass("ds-recipe-meta rds-recipe-meta").get(0);
 
       for( Node child : tagElements.childNodes() )
       {
@@ -127,7 +131,7 @@ public class ChefkochExtractor
 
    private String extractInstruction()
    {
-      Elements elements = recipeHtmlPage.body().getElementsByClass("ds-box");
+      Elements elements = body.getElementsByClass("ds-box");
       Element instruction = null;
       for( Element element : elements )
       {
@@ -144,13 +148,18 @@ public class ChefkochExtractor
    {
       List<RecipeIngredient> recipeIngredients = new ArrayList<>();
       List<String> ingredients = new ArrayList<>();
-      Element ingredientsTable = recipeHtmlPage.body().getElementsByClass("ingredients table-header").get(0);
+      Element ingredientsTable = body.getElementsByClass("ingredients table-header").get(0);
 
       ingredients = extractIngredients(ingredients, ingredientsTable);
 
-      for( int i = 0; i < ingredients.size(); i += 2 )
+      Iterator<String> iterator = ingredients.iterator();
+      while( iterator.hasNext() )
       {
-         recipeIngredients.add(new RecipeIngredient(ingredients.get(i), ingredients.get(i + 1)));
+         String amountUnit = iterator.next();
+         String name = iterator.next();
+
+         String[] parts = amountUnit.split(" ");
+         recipeIngredients.add(new RecipeIngredient(parts[0], parts[1], name));
       }
 
       return recipeIngredients;
