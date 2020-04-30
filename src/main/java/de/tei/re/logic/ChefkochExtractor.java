@@ -149,9 +149,11 @@ public class ChefkochExtractor
    {
       List<RecipeIngredient> recipeIngredients = new ArrayList<>();
       List<IngredientTableItem> ingredients = new ArrayList<>();
-      Element ingredientsTable = body.getElementsByClass("ingredients table-header").get(0);
 
-      ingredients = extractIngredients(ingredients, ingredientsTable);
+      for( Element ingredientsTable : body.getElementsByClass("ingredients table-header") )
+      {
+         ingredients = extractIngredients(ingredients, ingredientsTable);
+      }
 
       Iterator<IngredientTableItem> iterator = ingredients.iterator();
       while( iterator.hasNext() )
