@@ -158,8 +158,15 @@ public class ChefkochExtractor
          String amountUnit = iterator.next();
          String name = iterator.next();
 
-         String[] parts = amountUnit.split(" ");
-         recipeIngredients.add(new RecipeIngredient(parts[0], parts[1], name));
+         if( amountUnit.contains(" ") )
+         {
+            String[] parts = amountUnit.split(" ");
+            recipeIngredients.add(new RecipeIngredient(parts[0], parts[1], name));
+         }
+         else
+         {
+            recipeIngredients.add(new RecipeIngredient(amountUnit, "Stk.", name));
+         }
       }
 
       return recipeIngredients;
