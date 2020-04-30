@@ -13,5 +13,5 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 
-    compile group: 'org.jsoup', name: 'jsoup', version: '1.12.1'
+    compile group: 'org.jsoup', name: 'jsoup', version: '1.13.1'
 }

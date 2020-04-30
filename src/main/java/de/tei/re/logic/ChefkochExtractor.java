@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import de.tei.re.model.IngredientTableItem;
 import de.tei.re.model.RecipeIngredient;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -147,32 +148,31 @@ public class ChefkochExtractor
    private List<RecipeIngredient> extractIngredients()
    {
       List<RecipeIngredient> recipeIngredients = new ArrayList<>();
-      List<String> ingredients = new ArrayList<>();
+      List<IngredientTableItem> ingredients = new ArrayList<>();
       Element ingredientsTable = body.getElementsByClass("ingredients table-header").get(0);
 
       ingredients = extractIngredients(ingredients, ingredientsTable);
 
-      Iterator<String> iterator = ingredients.iterator();
+      Iterator<IngredientTableItem> iterator = ingredients.iterator();
       while( iterator.hasNext() )
       {
-         String amountUnit = iterator.next();
-         String name = iterator.next();
+         IngredientTableItem next = iterator.next();
 
-         if( amountUnit.contains(" ") )
+         if( next.getLeft().contains(" ") )
          {
-            String[] parts = amountUnit.split(" ");
-            recipeIngredients.add(new RecipeIngredient(parts[0], parts[1], name));
+            String[] parts = next.getLeft().split(" ");
+            recipeIngredients.add(new RecipeIngredient(parts[0], parts[1], next.getRight()));
          }
          else
          {
-            recipeIngredients.add(new RecipeIngredient(amountUnit, "Stk.", name));
+            recipeIngredients.add(new RecipeIngredient(next.getLeft(), "", next.getRight()));
          }
       }
 
       return recipeIngredients;
    }
 
-   private List<String> extractIngredients(List<String> ingredients, Element node)
+   private List<IngredientTableItem> extractIngredients(List<IngredientTableItem> ingredients, Element node)
    {
       if( !node.childNodes().isEmpty() )
       {
@@ -183,9 +183,21 @@ public class ChefkochExtractor
                Element element = (Element) child;
                if( element.parent().tagName().equals("td") && element.tagName().equals("span") )
                {
-                  if( element.hasText() )
+                  if( element.parent().className().equals("td-left") )
                   {
-                     ingredients.add(element.text());
+                     ingredients.add(new IngredientTableItem(element.text(), null));
+                  }
+                  else if( element.parent().className().equals("td-right") )
+                  {
+                     IngredientTableItem item = ingredients.get(ingredients.size() - 1);
+                     if( item.getRight() != null )
+                     {
+                        ingredients.add(new IngredientTableItem("", element.text()));
+                     }
+                     else
+                     {
+                        item.setRight(element.text());
+                     }
                   }
                }
                else
