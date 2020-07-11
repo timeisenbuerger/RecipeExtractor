@@ -19,7 +19,9 @@ public class ChefkochExtractor
    private Document recipeHtmlPage;
    private Element body;
 
+   private String imageLink;
    private String title;
+   private String difficulty;
    private String portions;
    private String instruction;
    private List<String> tags;
@@ -36,6 +38,15 @@ public class ChefkochExtractor
       this.body = recipeHtmlPage.body();
    }
 
+   public String getImageLink()
+   {
+      if( imageLink == null )
+      {
+         imageLink = extractImageLink();
+      }
+      return imageLink;
+   }
+
    public String getTitle()
    {
       if( title == null )
@@ -43,6 +54,15 @@ public class ChefkochExtractor
          title = extractTitle();
       }
       return title;
+   }
+
+   public String getDifficulty()
+   {
+      if( difficulty == null )
+      {
+         difficulty = extractDifficulty();
+      }
+      return difficulty;
    }
 
    public String getRecipeUrl()
@@ -97,11 +117,30 @@ public class ChefkochExtractor
       this.recipeHtmlPage = Jsoup.connect(recipeUrl).get();
       this.body = recipeHtmlPage.body();
 
+      imageLink = null;
       title = null;
       portions = null;
       instruction = null;
       tags = null;
       recipeIngredients = null;
+   }
+
+   private String extractImageLink()
+   {
+      String result = null;
+
+      Elements elementsByTag = recipeHtmlPage.body().getElementsByTag("amp-img");
+      for( int i = 0; i < elementsByTag.size(); i++ )
+      {
+         Element element = elementsByTag.get(i);
+         if( element.hasAttr("srcset") )
+         {
+            result = element.attr("src");
+            break;
+         }
+      }
+
+      return result;
    }
 
    private String extractTitle()
@@ -112,6 +151,27 @@ public class ChefkochExtractor
    private String extractPortions()
    {
       return body.getElementsByAttributeValue("aria-label", "Anzahl der Portionen").get(0).attr("value");
+   }
+
+   private String extractDifficulty()
+   {
+      String result = null;
+
+      result = body.getElementsByClass("recipe-difficulty").get(0).text().split(" ")[1];
+      if( result.equals("simpel") )
+      {
+         result = "Einfach";
+      }
+      else if( result.equals("normal") )
+      {
+         result = "Mittel";
+      }
+      else if( result.equals("pfiffig") )
+      {
+         result = "Schwer";
+      }
+
+      return result;
    }
 
    private List<String> extractTags()

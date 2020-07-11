@@ -5,6 +5,10 @@ public class IngredientTableItem
    private String left;
    private String right;
 
+   public IngredientTableItem()
+   {
+   }
+
    public IngredientTableItem(String left, String right)
    {
       this.left = left;
