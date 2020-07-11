@@ -54,7 +54,7 @@ public class KitchenStoriesRotWExtractor
 
       String imageUrl = singleRotW.getElementsByTag("img").get(0).attr("src");
       String recipeTitle = singleRotW.getElementsByTag("h3").get(0).text();
-      String recipeUrl = "https://www.kitchstories.com" + singleRotW.getElementsByTag("a").get(0).attr("href");
+      String recipeUrl = "https://www.kitchenstories.com" + singleRotW.getElementsByTag("a").get(0).attr("href");
       String time = singleRotW.getElementsByClass("archive-tile__prep-time").get(0).text().replace(".", "").toLowerCase();
 
       rotWTemplate.setImageUrl(imageUrl);
