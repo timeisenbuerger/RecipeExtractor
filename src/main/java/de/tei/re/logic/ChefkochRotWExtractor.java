@@ -69,6 +69,19 @@ public class ChefkochRotWExtractor
             String difficulty = element.getElementsByClass("meta--badge").get(0).text();
             String time = element.getElementsByClass("meta--clock").get(0).text().replace(".", "").toLowerCase();
 
+            if( difficulty.equals("simpel") )
+            {
+               difficulty = "Einfach";
+            }
+            else if( difficulty.equals("normal") )
+            {
+               difficulty = "Mittel";
+            }
+            else if( difficulty.equals("pfiffig") )
+            {
+               difficulty = "Schwer";
+            }
+
             rotWTemplate.setRecipeUrl(recipeUrl);
             rotWTemplate.setTitle(recipeTitle);
             rotWTemplate.setShortDescription(shortDescription);
