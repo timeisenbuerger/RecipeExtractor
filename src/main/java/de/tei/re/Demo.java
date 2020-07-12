@@ -23,7 +23,7 @@ public class Demo
    private static void extractChefkochRecipe() throws IOException
    {
       ChefkochExtractor chefkochExtractor = new ChefkochExtractor(
-            "https://www.chefkoch.de/rezepte/2507481393507298/Gnocchi-Pfanne.html");
+            "https://www.chefkoch.de/rezepte/1844061298739441/Mozzarella-Haehnchen-in-Basilikum-Sahnesauce.html");
       String imageLink = chefkochExtractor.getImageLink();
       String title = chefkochExtractor.getTitle();
       String difficulty = chefkochExtractor.getDifficulty();

@@ -7,6 +7,7 @@ import java.util.List;
 
 import de.tei.re.model.IngredientTableItem;
 import de.tei.re.model.RecipeIngredient;
+import de.tei.re.util.UnicodeReplacer;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -220,15 +221,27 @@ public class ChefkochExtractor
       {
          IngredientTableItem next = iterator.next();
 
+         String amount, unit, ingredient;
+
          if( next.getLeft().contains(" ") )
          {
             String[] parts = next.getLeft().split(" ");
-            recipeIngredients.add(new RecipeIngredient(parts[0], parts[1], next.getRight()));
+            amount = parts[0];
+            unit = parts[1];
+            ingredient = next.getRight();
          }
          else
          {
+            amount = next.getLeft();
+            unit = "";
+            ingredient = next.getRight();
+
             recipeIngredients.add(new RecipeIngredient(next.getLeft(), "", next.getRight()));
          }
+
+         amount = UnicodeReplacer.replaceUnicodes(amount);
+
+         recipeIngredients.add(new RecipeIngredient(amount, unit, ingredient));
       }
 
       return recipeIngredients;

@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import de.tei.re.model.Ingredient;
 import de.tei.re.model.IngredientTableItem;
 import de.tei.re.model.RecipeIngredient;
+import de.tei.re.util.UnicodeReplacer;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -242,6 +244,8 @@ public class KitchenStoriesExtractor
          }
 
          ingredient = ingredientTableItem.getRight();
+
+         amount = UnicodeReplacer.replaceUnicodes(amount);
 
          resultList.add(new RecipeIngredient(amount, unit, ingredient));
       }
