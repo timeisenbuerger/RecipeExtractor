@@ -2,13 +2,18 @@ package de.tei.re.logic;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import de.tei.re.model.IngredientTableItem;
 import de.tei.re.model.RecipeIngredient;
 import de.tei.re.util.UnicodeReplacer;
 import org.jsoup.Jsoup;
+import org.jsoup.internal.StringUtil;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
@@ -177,7 +182,7 @@ public class ChefkochExtractor
 
    private List<String> extractTags()
    {
-      List<String> tags = new ArrayList<>();
+      Map<String, String> tags = new HashMap<>();
       Element tagElements = body.getElementsByClass("ds-recipe-meta rds-recipe-meta").get(0);
 
       for( Node child : tagElements.childNodes() )
@@ -185,10 +190,68 @@ public class ChefkochExtractor
          Element element = (Element) child;
          if( element.tagName().equals("span") )
          {
-            tags.add(element.text());
+            String text = element.text();
+            for( int i = 0; i < text.toCharArray().length;  i++)
+            {
+               char c = text.toCharArray()[i];
+               if( StringUtil.isNumeric(String.valueOf(c)) )
+               {
+                  tags.put(text.substring(0, i-1).trim(), text.substring(i));
+                  break;
+               }
+            }
          }
       }
-      return tags;
+
+      Pattern pattern = Pattern.compile("^(?=.)(?:(?<hours>\\d+) *Stunde?)?(?: *(?<minutes>\\d+) *Minuten?)?$");
+      Pattern pattern2 = Pattern.compile("^(?=.)(?:(?<hours>\\d+) *Stunden?)?(?: *(?<minutes>\\d+) *Minuten?)?$");
+
+      List<String> resultList = new ArrayList<>();
+      for( Map.Entry<String, String> entry : tags.entrySet() )
+      {
+         String tag = entry.getValue();
+         Matcher matcher1 = pattern.matcher(tag);
+         Matcher matcher2 = pattern2.matcher(tag);
+
+         String hours, minutes;
+         if( matcher1.matches() )
+         {
+            hours = matcher1.group("hours");
+            minutes = matcher1.group("minutes");
+         }
+         else if( matcher2.matches() )
+         {
+            hours = matcher1.group("hours");
+            minutes = matcher1.group("minutes");
+         }
+         else
+         {
+            resultList.add(tag);
+            break;
+         }
+
+         Integer hoursVal, minutesVal, result = null;
+         if( hours != null )
+         {
+            hoursVal = Integer.parseInt(hours) * 60;
+            result = hoursVal;
+         }
+         if( minutes != null )
+         {
+            minutesVal = Integer.parseInt(minutes);
+            if( result == null )
+            {
+               result = minutesVal;
+            }
+            else
+            {
+               result += minutesVal;
+            }
+         }
+         resultList.add(entry.getKey() + " " + result + " min");
+      }
+
+      return resultList;
    }
 
    private String extractInstruction()
