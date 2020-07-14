@@ -234,6 +234,8 @@ public class KitchenStoriesExtractor
 
          if( !ingredientTableItem.getLeft().isEmpty() )
          {
+            ingredientTableItem.setLeft(UnicodeReplacer.replaceUnicodes(ingredientTableItem.getLeft()));
+
             String[] parts = ingredientTableItem.getLeft().split(" ");
             amount = parts[0];
 
@@ -244,8 +246,6 @@ public class KitchenStoriesExtractor
          }
 
          ingredient = ingredientTableItem.getRight();
-
-         amount = UnicodeReplacer.replaceUnicodes(amount);
 
          resultList.add(new RecipeIngredient(amount, unit, ingredient));
       }

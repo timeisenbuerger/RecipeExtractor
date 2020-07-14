@@ -14,9 +14,9 @@ public class Demo
    public static void main(String[] args) throws IOException
    {
       extractChefkochRecipe();
-      //extractKitchenStoriesRecipe();
-      //extractChefkochRecipesOfTheWeek();
-      //extractKitchenStoriesRecipesOfTheWeek();
+      extractKitchenStoriesRecipe();
+      extractChefkochRecipesOfTheWeek();
+      extractKitchenStoriesRecipesOfTheWeek();
       System.exit(0);
    }
 
@@ -36,7 +36,7 @@ public class Demo
    private static void extractKitchenStoriesRecipe() throws IOException
    {
       KitchenStoriesExtractor kitchenStoriesExtractor = new KitchenStoriesExtractor(
-            "https://www.kitchenstories.com/de/rezepte/paprika-mit-veganen-muhlen-grillern-tomaten-und-pesto");
+            "https://www.kitchenstories.com/de/rezepte/5-zutaten-spicy-shrimp-salat-sandwich");
 
       kitchenStoriesExtractor.getImageLink();
       kitchenStoriesExtractor.getTitle();
