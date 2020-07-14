@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.google.common.base.CharMatcher;
 import de.tei.re.model.IngredientTableItem;
 import de.tei.re.model.RecipeIngredient;
 import de.tei.re.util.UnicodeReplacer;
@@ -191,12 +192,12 @@ public class ChefkochExtractor
          if( element.tagName().equals("span") )
          {
             String text = element.text();
-            for( int i = 0; i < text.toCharArray().length;  i++)
+            for( int i = 0; i < text.toCharArray().length; i++ )
             {
                char c = text.toCharArray()[i];
                if( StringUtil.isNumeric(String.valueOf(c)) )
                {
-                  tags.put(text.substring(0, i-1).trim(), text.substring(i));
+                  tags.put(text.substring(0, i - 1).trim(), text.substring(i));
                   break;
                }
             }
@@ -286,6 +287,11 @@ public class ChefkochExtractor
 
          String amount, unit, ingredient;
 
+         if( !next.getLeft().isEmpty() )
+         {
+            next.setLeft(UnicodeReplacer.replaceUnicodes(next.getLeft()));
+         }
+
          if( next.getLeft().contains(" ") )
          {
             String[] parts = next.getLeft().split(" ");
@@ -301,8 +307,6 @@ public class ChefkochExtractor
 
             recipeIngredients.add(new RecipeIngredient(next.getLeft(), "", next.getRight()));
          }
-
-         amount = UnicodeReplacer.replaceUnicodes(amount);
 
          recipeIngredients.add(new RecipeIngredient(amount, unit, ingredient));
       }

@@ -14,16 +14,16 @@ public class Demo
    public static void main(String[] args) throws IOException
    {
       extractChefkochRecipe();
-      extractKitchenStoriesRecipe();
-      extractChefkochRecipesOfTheWeek();
-      extractKitchenStoriesRecipesOfTheWeek();
+      //extractKitchenStoriesRecipe();
+      //extractChefkochRecipesOfTheWeek();
+      //extractKitchenStoriesRecipesOfTheWeek();
       System.exit(0);
    }
 
    private static void extractChefkochRecipe() throws IOException
    {
       ChefkochExtractor chefkochExtractor = new ChefkochExtractor(
-            "https://www.chefkoch.de/rezepte/1844061298739441/Mozzarella-Haehnchen-in-Basilikum-Sahnesauce.html");
+            "https://www.chefkoch.de/rezepte/2516591394803059/Pikanter-Kartoffelpuffer-Kuchen-a-la-Gaga.html");
       String imageLink = chefkochExtractor.getImageLink();
       String title = chefkochExtractor.getTitle();
       String difficulty = chefkochExtractor.getDifficulty();
