@@ -234,7 +234,7 @@ public class KitchenStoriesExtractor
 
          if( !ingredientTableItem.getLeft().isEmpty() )
          {
-            ingredientTableItem.setLeft(UnicodeReplacer.replaceUnicodes(ingredientTableItem.getLeft()));
+            ingredientTableItem.setLeft(UnicodeReplacer.replaceUnicodes(ingredientTableItem.getLeft().trim()));
 
             String[] parts = ingredientTableItem.getLeft().split(" ");
             amount = parts[0];

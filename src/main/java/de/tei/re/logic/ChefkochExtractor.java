@@ -289,7 +289,7 @@ public class ChefkochExtractor
 
          if( !next.getLeft().isEmpty() )
          {
-            next.setLeft(UnicodeReplacer.replaceUnicodes(next.getLeft()));
+            next.setLeft(UnicodeReplacer.replaceUnicodes(next.getLeft().trim()));
          }
 
          if( next.getLeft().contains(" ") )

@@ -36,7 +36,7 @@ public class Demo
    private static void extractKitchenStoriesRecipe() throws IOException
    {
       KitchenStoriesExtractor kitchenStoriesExtractor = new KitchenStoriesExtractor(
-            "https://www.kitchenstories.com/de/rezepte/5-zutaten-spicy-shrimp-salat-sandwich");
+            "https://www.kitchenstories.com/de/rezepte/enchiladas-mit-huhn");
 
       kitchenStoriesExtractor.getImageLink();
       kitchenStoriesExtractor.getTitle();
