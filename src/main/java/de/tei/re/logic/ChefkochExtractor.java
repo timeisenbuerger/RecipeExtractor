@@ -297,17 +297,14 @@ public class ChefkochExtractor
             String[] parts = next.getLeft().split(" ");
             amount = parts[0];
             unit = parts[1];
-            ingredient = next.getRight();
          }
          else
          {
             amount = next.getLeft();
             unit = "";
-            ingredient = next.getRight();
-
-            recipeIngredients.add(new RecipeIngredient(next.getLeft(), "", next.getRight()));
          }
 
+         ingredient = next.getRight();
          recipeIngredients.add(new RecipeIngredient(amount, unit, ingredient));
       }
 
